@@ -51,8 +51,7 @@ async def generate(request: Request, idea: str = Form(...)):
         '''
         return HTMLResponse(html_template)
     except Exception as e:
-        return HTMLResponse(f"<p>Ошибка: {str(e)}</p>")
-        if __name__ == "__main__":
+        return HTMLResponse(f"<p>Ошибка: {str(e)}</p>")    if __name__ == "__main__":
     import uvicorn
     import os
 
