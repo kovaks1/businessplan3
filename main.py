@@ -1,4 +1,3 @@
-
 from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -15,7 +14,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-#app.mount("/static", StaticFiles(directory="static"), name="static")
+# app.mount("/static", StaticFiles(directory="static"), name="static")
 
 client = AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 if not os.getenv("OPENAI_API_KEY"):
@@ -38,23 +37,22 @@ async def generate(request: Request, idea: str = Form(...)):
             ]
         )
         result = response.choices[0].message.content
-        html_template = f'''
-        <html>
-        <head><link rel="stylesheet" href="/static/style.css"></head>
-        <body>
-        <div class='container'>
-            <h1>Ваш бизнес-план</h1>
-            <div class='result-box'>{result}</div>
-            <a href='/' class='back-link'>&larr; Назад</a>
-        </div>
-        </body></html>
-        '''
+        html_template = (
+            "<html>"
+            "<head><link rel='stylesheet' href='/static/style.css'></head>"
+            "<body>"
+            "<div class='container'>"
+            "<h1>Ваш бизнес-план</h1>"
+            f"<div class='result-box'>{result}</div>"
+            "<a href='/' class='back-link'>&larr; Назад</a>"
+            "</div>"
+            "</body></html>"
+        )
         return HTMLResponse(html_template)
     except Exception as e:
-        return HTMLResponse(f"<p>Ошибка: {str(e)}</p>")    if __name__ == "__main__":
-    import uvicorn
-    import os
+        return HTMLResponse(f"<p>Ошибка: {str(e)}</p>")
 
+if __name__ == "__main__":
+    import uvicorn
     port = int(os.environ.get("PORT", 10000))
     uvicorn.run("main:app", host="0.0.0.0", port=port)
-
