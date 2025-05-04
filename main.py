@@ -14,7 +14,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# app.mount("/static", StaticFiles(directory="static"), name="static")
+ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 client = AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 if not os.getenv("OPENAI_API_KEY"):
